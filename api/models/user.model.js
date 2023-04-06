@@ -39,8 +39,7 @@ const User = connection.define(
 			type: DataTypes.INTEGER,
         },
 		subscribed: {
-			type: DataTypes.BOOLEAN,
-			toDefaultValue: false
+			type: DataTypes.BOOLEAN
 		},
     },
 	{timestamps: false}

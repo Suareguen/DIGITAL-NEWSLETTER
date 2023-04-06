@@ -19,13 +19,17 @@ async function checkConnection() {
     }
 }
 
-async function syncModels() {
-    try {
-        await connection.sync()
-        console.log('All models synchronized succesfully!')
-    } catch (error) {
-        throw error
-    }
+async function syncModels(value) {
+	const state = {
+		alter: { alter: true },
+		force: { force: true },
+	}
+	try {
+		await connection.sync(state[value] || '')
+		console.log(`All models were synchronized successfully using sync(${JSON.stringify(state[value]) || ''}).`)
+	} catch (error) {
+		throw error
+	}
 }
 
 module.exports = {
