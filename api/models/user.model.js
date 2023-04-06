@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize')
 const { connection } = require('../../database')
 
-
 const User = connection.define(
 	'user',
 	{
@@ -12,20 +11,13 @@ const User = connection.define(
                 notEmpty: true
             }
 		},
-		username: {
+		userName: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 notEmpty: true
             }
         },
-		password: {
-			type:DataTypes.STRING,
-			allowNull: false,
-			validate: {
-				notEmpty: true
-			}
-		},
         email: {
             type: DataTypes.STRING,
             validate: {
@@ -35,15 +27,19 @@ const User = connection.define(
                 }
             }
         },
-        phone: {
-			type: DataTypes.INTEGER,
+        password: {
+            type: DataTypes.STRING,
         },
-		subscribed: {
-			type: DataTypes.BOOLEAN
-		},
+        suscribed: {
+            type: DataTypes.BOOLEAN
+        }
     },
-	{timestamps: false}
+    {timestamps: false}
 )
+
+
+
+
 
 
 module.exports = User

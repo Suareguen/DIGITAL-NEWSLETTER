@@ -68,6 +68,7 @@ async function updateUser(req, res) {
         console.log(update)
         if(update) {
             return res.status(200).json({ message: 'User updated' })
+            
         }
         else {
 			return res.status(404).send('User not found or already updated')

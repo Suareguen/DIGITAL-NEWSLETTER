@@ -1,22 +1,19 @@
-const  { Sequelize } = require('sequelize')
+const { Sequelize } = require('sequelize')
 
-
-//Realizamos la conección a la base de datos por medio de la documentación de Sequelize
-const connection = new Sequelize(process.env.DB_NAME, 'root', process.env.DB_PASSWORD, {
-	host: process.env.DB_HOST,
+const connection = new Sequelize(process.env.DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+	host: process.env.HOST,
 	dialect: process.env.DIALECT,
 	port: process.env.DB_PORT,
 	logging: false,
 })
 
-
 async function checkConnection() {
-    try {
-        await connection.authenticate()
-        console.log('Connection to DB Done!')
-    } catch (error) {
-        throw error
-    }
+	try {
+		await connection.authenticate()
+		console.log('Connection to DB has been established successfully.')
+	} catch (error) {
+		throw error
+	}
 }
 
 async function syncModels(value) {
@@ -32,8 +29,5 @@ async function syncModels(value) {
 	}
 }
 
-module.exports = {
-    connection,
-    checkConnection,
-    syncModels
-}
+
+module.exports = { connection, checkConnection, syncModels }

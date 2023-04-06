@@ -1,34 +1,30 @@
 const { DataTypes } = require('sequelize')
 const { connection } = require('../../database')
 
-
-const Donations = connection.define(
-	'donation',
+const Article = connection.define(
+	'article',
 	{
-		payment_method: {
+		title: {
 			type: DataTypes.STRING,
 			allowNull: false,
             validate: {
                 notEmpty: true
             }
 		},
-		message: {
+		content: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 notEmpty: true
             }
-        },
-		quantity: {
-			type: DataTypes.INTEGER,
-            allowNull: false,
-            validation: {
-                notEmpty: true
-            }
-		},
+        }
     },
-	{timestamps: false}
+    {timestamps: false}
 )
 
 
-module.exports = Donations
+
+
+
+
+module.exports = Article
