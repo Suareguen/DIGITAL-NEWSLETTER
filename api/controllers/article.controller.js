@@ -79,6 +79,24 @@ async function deleteArticle(req, res) {
     }
 }
 
+async function commentArticle(req, res) {
+    try {
+        const article = await Article.findByPk(req.params.articleId)
+        const comment = await Comment.create({
+            title: req.body.title,
+            body: req.body.body,
+            userId: res.locals.user.id,
+            articleId: article.id
+        })
+        return res.status(200).json({ message: 'Comment created', comment: {
+            userName: res.locals.user.userName,
+            articleTitle: article.title,
+            comment: comment
+        }})
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
 
 
 module.exports = {
@@ -86,5 +104,6 @@ module.exports = {
     getOneArticleById,
     createArticle,
     updateArticle,
-    deleteArticle
+    deleteArticle,
+    commentArticle
 }
