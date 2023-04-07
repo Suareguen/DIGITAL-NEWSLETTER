@@ -1,4 +1,6 @@
 const Employee = require('../models/employee.model')
+const bcrypt = require('bcrypt')
+
 
 async function getAllEmployees(req, res) {
     try {
@@ -35,6 +37,7 @@ async function getOneEmployeeById(req, res) {
 
 async function createEmployee(req, res) {
     try {
+        req.body.password = bcrypt.hashSync(req.body.password, 10)
         const employee = await Employee.create(req.body)
         return res.status(200).json({ message: 'Employee created', employee: employee })
     } catch (error) {

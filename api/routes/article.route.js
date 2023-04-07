@@ -7,14 +7,14 @@ const {
     deleteArticle,
     commentArticle
 } = require('../controllers/article.controller')
-const { checkAuth } = require('../middlewares/auth')
+const { checkAuth, checkEditor, checkEmployeeAuth } = require('../middlewares/auth')
 
 
 //Routes used by Admin
 router.get('/', getAllArticles)
 router.get('/:articleId', getOneArticleById)
 router.post('/:articleId/comment', checkAuth, commentArticle)
-router.post('/',checkAuth, createArticle)
+router.post('/',checkEmployeeAuth,checkEditor, createArticle)
 router.put('/:articleId', updateArticle)
 router.delete('/:articleId', deleteArticle)
 

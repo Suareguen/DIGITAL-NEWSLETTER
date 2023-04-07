@@ -1,4 +1,7 @@
 const Article = require('../models/article.model')
+const Category = require('../models/category.model')
+const Tag = require('../models/tag.model')
+
 
 async function getAllArticles(req, res) {
     try {
@@ -36,6 +39,33 @@ async function getOneArticleById(req, res) {
 async function createArticle(req, res) {
     try {
         const article = await Article.create(req.body)
+        const category = await Category.findOne({
+            where: {
+                name: req.body.category
+            }
+        })
+        const tag = await Tag.findOne({
+            where: {
+                name:req.body.name
+            }
+        })
+        if(tag) {
+            await article.addTag(tag)
+        } else {
+            const tag = await article.createTag({
+                name: req.body.name
+            })
+            await article.addTag(tag)
+        }
+        if(category) {
+            await category.addArticle(article)
+        } else {
+            const category = await Category.create({
+                name: req.body.category
+            })
+            await category.addArticle(article)
+        }
+        await article.addTag(tag)
         return res.status(200).json({ message: 'Article created', article: article })
     } catch (error) {
         res.status(500).send(error.message)

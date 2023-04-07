@@ -1,4 +1,5 @@
 const User = require('../models/user.model')
+const Employee = require('../models/employee.model')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
@@ -16,8 +17,7 @@ const signUp = async (req, res) => {
 const login = async (req, res) => {
     try {
         const user = await User.findOne({
-            where:
-            {
+            where: {
                 email: req.body.email
             }
         })
@@ -37,8 +37,32 @@ const login = async (req, res) => {
     }
 }
 
+const employeeLogin = async (req, res) => {
+    try {
+        const employee = await Employee.findOne({
+            where: {
+                email: req.body.email
+            }
+        })
+        if (!employee) {
+            return res.status(500).send('Error: Empty mail or password')
+        }
+        bcrypt.compare(req.body.password, employee.password, (err, result) => {
+            if (!result) {
+                return res.status(403).send('Error: Empty mail or password')
+            }
+            const token = jwt.sign({ email: employee.email }, 'secret', { expiresIn: '7h' })
+            return res.status(200).json({ token })
+        })
+    }
+    catch (err) {
+        console.error(err)
+    }
+}
+
 
 module.exports = {
     signUp,
-    login
+    login,
+    employeeLogin
 }

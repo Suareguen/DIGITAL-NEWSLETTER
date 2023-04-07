@@ -20,6 +20,13 @@ const Employee = connection.define(
                 }
             }
         },
+        password: {
+			type: DataTypes.STRING,
+			allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+		},
         phone: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
